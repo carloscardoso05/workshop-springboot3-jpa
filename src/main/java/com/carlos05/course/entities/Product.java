@@ -1,5 +1,6 @@
 package com.carlos05.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -21,6 +22,10 @@ public class Product implements Serializable {
     private String description;
     private Double price;
     private String imgUrl;
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
+
+
     @ManyToMany
     @JoinTable(
             name = "tb_product_category",
@@ -40,6 +45,14 @@ public class Product implements Serializable {
         this.imgUrl = imgUrl;
     }
 
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> orders = new HashSet<>();
+        for (OrderItem orderItem: items) {
+            orders.add(orderItem.getOrder());
+        }
+        return orders;
+    }
     public Long getId() {
         return id;
     }
