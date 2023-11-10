@@ -94,6 +94,10 @@ public class Order implements Serializable {
         this.payment = payment;
     }
 
+    public Double getTotal() {
+        return items.stream().reduce(0D, (total, element) -> total + element.getSubTotal(), Double::sum);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,4 +119,5 @@ public class Order implements Serializable {
                 ", client=" + client +
                 '}';
     }
+
 }
