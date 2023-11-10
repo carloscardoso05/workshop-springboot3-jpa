@@ -2,6 +2,7 @@ package com.carlos05.course.services;
 
 import com.carlos05.course.entities.User;
 import com.carlos05.course.repositories.UserRepository;
+import com.carlos05.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User user) {
